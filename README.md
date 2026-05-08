@@ -2,33 +2,9 @@
 
 Official repository for **FAMNet: Frequency-Adaptive Magnitude Deformable Network for Camouflaged Object Detection**.
 
-## Method Overview
+## Abstract
 
-FAMNet is designed for camouflaged object detection, where foreground objects are visually similar to their surrounding background and often exhibit weak boundaries, complex textures, and ambiguous foreground-background transitions.
-
-The core idea of FAMNet is to adapt deformable sampling according to local frequency information. In complex high-frequency regions, the model suppresses excessive deformation to preserve fine structures and avoid unstable sampling. In smoother low-frequency regions, the model allows broader contextual sampling to improve object-level consistency.
-
-The frequency-adaptive magnitude deformation can be summarized as:
-
-$$
-\Delta'(p) = \lambda \cdot s(p) \cdot \tanh(\Delta_{\mathrm{raw}}(p))
-$$
-
-where $\Delta_{\mathrm{raw}}(p)$ denotes the raw deformable offset, $s(p)$ is the frequency-guided magnitude scaling factor, and $\lambda$ controls the global deformation scope.
-
-FAMNet is further trained with a structure-aware weighted supervision objective that emphasizes locally ambiguous regions between predictions and ground-truth masks.
-
-The total training objective is:
-
-$$
-\mathcal{L}_{total}
-=
-\mathcal{L}_{wbce}
-+
-\mathcal{L}_{wdice}
-+
-\mathcal{L}_{ual}
-$$
+Camouflaged object detection aims to segment objects that are visually concealed in their surrounding environments. Existing methods have achieved substantial progress, but they still struggle with weak object boundaries, heterogeneous texture distributions, and ambiguous foreground-background transitions. To address these challenges, we propose **FAMNet**, a frequency-adaptive magnitude deformable network for camouflaged object detection. FAMNet introduces a frequency-adaptive magnitude deformable convolution module that modulates deformable sampling according to local frequency responses, enabling adaptive receptive behavior across regions with different structural complexities. In addition, a structure-aware weighted supervision strategy is introduced to emphasize locally ambiguous regions and improve segmentation quality. Extensive experiments on widely used camouflaged object detection benchmarks demonstrate that FAMNet achieves competitive performance against existing state-of-the-art methods.
 
 ## Prediction Maps
 
