@@ -1,52 +1,37 @@
 # FAMNet
 
-Official implementation of **FAMNet: Frequency-Adaptive Magnitude Deformable Network for Camouflaged Object Detection**.
-
-## Introduction
-
-Camouflaged object detection aims to segment objects that are highly similar to their surrounding background. This task is challenging because camouflaged regions often contain weak object boundaries, heterogeneous local textures, and ambiguous foreground-background transitions.
-
-FAMNet addresses this problem by introducing a frequency-adaptive magnitude deformable mechanism for adaptive feature sampling. The method adjusts deformable sampling magnitudes according to local frequency responses, enabling more constrained sampling in complex high-frequency regions and broader contextual sampling in smoother regions. A structure-aware weighted supervision strategy is further used to emphasize locally ambiguous regions during training.
+Official repository for **FAMNet: Frequency-Adaptive Magnitude Deformable Network for Camouflaged Object Detection**.
 
 ## Method Overview
 
-The proposed framework contains two main components:
+FAMNet is designed for camouflaged object detection, where foreground objects are visually similar to their surrounding background and often exhibit weak boundaries, complex textures, and ambiguous foreground-background transitions.
 
-1. **Frequency-Adaptive Magnitude Deformable Convolution**
+The core idea of FAMNet is to adapt deformable sampling according to local frequency information. In complex high-frequency regions, the model suppresses excessive deformation to preserve fine structures and avoid unstable sampling. In smoother low-frequency regions, the model allows broader contextual sampling to improve object-level consistency.
 
-   The deformable offset magnitude is adaptively modulated according to local frequency information:
+The frequency-adaptive magnitude deformation can be summarized as:
 
-   $$
-   \Delta'(p) = \lambda \cdot s(p) \cdot \tanh(\Delta_{\mathrm{raw}}(p))
-   $$
+$$
+\Delta'(p) = \lambda \cdot s(p) \cdot \tanh(\Delta_{\mathrm{raw}}(p))
+$$
 
-   where $\Delta_{\mathrm{raw}}(p)$ denotes the raw deformable offset, $s(p)$ is the frequency-guided magnitude scaling factor, and $\lambda$ controls the global deformation scope.
+where $\Delta_{\mathrm{raw}}(p)$ denotes the raw deformable offset, $s(p)$ is the frequency-guided magnitude scaling factor, and $\lambda$ controls the global deformation scope.
 
-2. **Structure-Aware Weighted Supervision**
+FAMNet is further trained with a structure-aware weighted supervision objective that emphasizes locally ambiguous regions between predictions and ground-truth masks.
 
-   A spatial weight map is generated from local structural discrepancy between prediction and ground truth, assigning larger weights to locally ambiguous regions.
+The total training objective is:
 
-   The overall training objective is:
+$$
+\mathcal{L}_{total}
+=
+\mathcal{L}_{wbce}
++
+\mathcal{L}_{wdice}
++
+\mathcal{L}_{ual}
+$$
 
-   $$
-   \mathcal{L}_{total}
-   =
-   \mathcal{L}_{wbce}
-   +
-   \mathcal{L}_{wdice}
-   +
-   \mathcal{L}_{ual}
-   $$
+## Prediction Maps
 
-## Repository Structure
+The prediction maps of FAMNet are available at:
 
-```text
-FAMNet/
-├── models/                 # Model definitions
-├── datasets/               # Dataset loading and preprocessing
-├── utils/                  # Utility functions
-├── train.py                # Training script
-├── test.py                 # Testing script
-├── eval.py                 # Evaluation script
-├── requirements.txt        # Python dependencies
-└── README.md
+[Google Drive: FAMNet Prediction Maps](https://drive.google.com/drive/folders/1p9lw4doD6SLu-ToXq2Bx172oeYgc_n2b?usp=sharing)
